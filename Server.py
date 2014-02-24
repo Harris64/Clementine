@@ -1,7 +1,7 @@
 import socket
 
 SERVER_ADDRESS = "127.0.0.1"
-SERVER_PORT = 80
+SERVER_PORT = 1234
 
 backlog = 5
 size = 1024
@@ -18,3 +18,5 @@ while True:
         client.send(data)
 
     client.close()
+
+server.close()
