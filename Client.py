@@ -1,7 +1,7 @@
 import socket
 
-SERVER_ADDRESS = "127.0.0.1"
-SERVER_PORT = 80
+SERVER_ADDRESS = "109.175.132.136"
+SERVER_PORT = 1234
 
 size = 1024
 sendText= raw_input("please type your message: ")
