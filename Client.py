@@ -1,16 +1,25 @@
 import socket
 
-SERVER_ADDRESS = "harris64.no-ip.biz"
-SERVER_PORT = 1234
+SERVER_ADDRESS = "127.0.0.1"
+SERVER_PORT = 8888
 
-size = 1024
+a=1
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect((SERVER_ADDRESS, SERVER_PORT))
-client.send("Testing...")
+while a == 1:
+    size = 1024
+    Chat = raw_input("Enter text to send to chat: ")
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect((SERVER_ADDRESS, SERVER_PORT))
+    client.send(Chat)
 
-data = client.recv(size)
+    data = client.recv(size)
+
+    print data
+
+    if Chat == "exit":
+        print "Goodbye"
+        a=0
+        
 
 client.close()
 
-print data
