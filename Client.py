@@ -1,6 +1,6 @@
 import socket
 
-SERVER_ADDRESS = "127.0.0.1"
+SERVER_ADDRESS = "10.0.87.56"
 SERVER_PORT = 8888
 
 a=1
