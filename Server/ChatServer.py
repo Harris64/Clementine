@@ -13,7 +13,7 @@ class ChatServer:
     # Initialisation method.
     def initialise(self):
 
-        # Construct serverSocket, bind it and start listening.
+        # Construct socket, bind it and start listening.
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.serverSocket.bind((self.hostAddress, self.hostPort))
         self.serverSocket.listen(8)
@@ -50,6 +50,6 @@ class ChatServer:
         # Close server socket.
         self.serverSocket.close()
 
-chatServer = ChatServer("127.0.0.1", 1234)
+chatServer = ChatServer("127.0.0.1", 8881)
 chatServer.initialise()
 chatServer.acceptConnections()

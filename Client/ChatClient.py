@@ -1,25 +1,40 @@
 import socket
 
-SERVER_ADDRESS = "10.0.87.56"
-SERVER_PORT = 8888
+# ChatClient class.
+class ChatClient:
 
-a=1
+    # Constructor method.
+    def __init__(self, hostAddress, hostPort):
 
-while a == 1:
-    size = 1024
-    Chat = raw_input("Enter text to send to chat: ")
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect((SERVER_ADDRESS, SERVER_PORT))
-    client.send(Chat)
+        # Set object attributes.
+        self.hostAddress = hostAddress
+        self.hostPort = hostPort
 
-    data = client.recv(size)
+    # Initialisation method.
+    def initialise(self):
 
-    print data
+        # Construct socket and bind it.
+        self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.clientSocket.connect((self.hostAddress, self.hostPort))
 
-    if Chat == "exit":
-        print "Goodbye"
-        a=0
-        
+        # Set status flag.
+        self.status = True
 
-client.close()
+    def pool(self):
+        while self.status == True:
+            message = raw_input("Message: ")
 
+            if message == "exit":
+                self.clientSocket.close()
+                
+                self.status = False
+            else:
+                self.clientSocket.send(message)
+
+                response = self.clientSocket.recv(1024)
+
+                print response
+
+chatClient = ChatClient("127.0.0.1", 8881)
+chatClient.initialise()
+chatClient.pool()
