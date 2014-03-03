@@ -50,6 +50,6 @@ class ChatServer:
         # Close server socket.
         self.serverSocket.close()
 
-chatServer = ChatServer("127.0.0.1", 8881)
+chatServer = ChatServer("127.0.0.1", 8888)
 chatServer.initialise()
 chatServer.acceptConnections()

@@ -35,6 +35,6 @@ class ChatClient:
 
                 print response
 
-chatClient = ChatClient("127.0.0.1", 8881)
+chatClient = ChatClient("10.0.74.92", 8888)
 chatClient.initialise()
 chatClient.pool()
