@@ -32,7 +32,7 @@ class ChatServer:
             data = connection.recv(1024)
 
             # Check if data exists.
-            if data != None:
+            if not data:
 
                 # Send data back.
                 connection.send(data)
