@@ -22,8 +22,10 @@ def on_resize(width, height):
 
 @window.event
 def on_draw():
-	vertex_list.draw(GL_TRIANGLES)
+	batch.draw()
 
-vertex_list = vertex_list(3, ('v2f', (0.0, 0.0, 1.0, 0.0, 1.0, 1.0)), ('c3B', (0, 0, 255, 0, 255, 0, 255, 0, 0)))
+batch = Batch()
+batch.add(3, GL_TRIANGLES, None, ('v2f', (0.0, 0.0, 1.0, 0.0, 1.0, 1.0)), ('c3B', (0, 0, 255, 0, 255, 0, 255, 0, 0)))
+batch.add(3, GL_TRIANGLES, None, ('v2f', (0.0, 1.0, 0.0, 0.0, 1.0, 1.0)), ('c3B', (0, 0, 255, 0, 255, 0, 255, 0, 0)))
 
 pyglet.app.run()
