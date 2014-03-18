@@ -25,7 +25,19 @@ def on_draw():
 	batch.draw()
 
 batch = Batch()
-batch.add(3, GL_TRIANGLES, None, ('v2f', (0.0, 0.0, 1.0, 0.0, 1.0, 1.0)), ('c3B', (0, 0, 255, 0, 255, 0, 255, 0, 0)))
-batch.add(3, GL_TRIANGLES, None, ('v2f', (0.0, 1.0, 0.0, 0.0, 1.0, 1.0)), ('c3B', (0, 0, 255, 0, 255, 0, 255, 0, 0)))
+
+for i in range(0, 20):
+	for j in range(0, 15):
+		x = 640.0 / (i * 32)
+		y = 480.0 / (j * 32)
+
+		batch.add(
+			3, GL_TRIANGLES, None,
+			('v2f', (x, y, x + 0.1, y, x + 0.1, y + 0.1)),
+			('c3B', (0, 0, 255, 0, 255, 0, 255, 0, 0)))
+		batch.add(
+			3, GL_TRIANGLES, None,
+			('v2f', (x, y, x, y + 1.0, x + 0.1, y + 0.1)),
+			('c3B', (0, 0, 255, 0, 255, 0, 255, 0, 0)))
 
 pyglet.app.run()

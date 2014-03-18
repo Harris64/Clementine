@@ -7,20 +7,6 @@ class Window(QtGui.QMainWindow):
 	def __init__(self):
 		super(Window, self).__init__()
 
-		menu = self.menuBar()
-
-		fileMenu = menu.addMenu("&File")
-
-		exitAction = QtGui.QAction(QtGui.QIcon("../Games/Harris/res/icons/001-Weapon01.png"), "&Exit", self)
-		exitAction.triggered.connect(self.close)
-
-		fileMenu.addAction(exitAction)
-
-		exitButton = QtGui.QPushButton("Exit", self)
-		exitButton.clicked.connect(self.close)
-		exitButton.resize(exitButton.sizeHint())
-		exitButton.move(50, 50)
-
 		self.setGeometry(300, 300, 250, 150)
 		self.setWindowTitle("Clementine")
 		self.setWindowIcon(QtGui.QIcon("../Games/Harris/res/icons/001-Weapon01.png"))
