@@ -1,55 +1,27 @@
 import socket
 
-# ChatServer class.
-class ChatServer:
+class ChatServer():
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
 
-    # Constructor method.
-    def __init__(self, hostAddress, hostPort):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.bind((self.host, self.port))
 
-        # Set object attributes.
-        self.hostAddress = hostAddress
-        self.hostPort = hostPort
+    def listen(self):
+        self.socket.listen(1)
 
-    # Initialisation method.
-    def initialise(self):
+        connection, address = self.socket.accept()
 
-        # Construct socket, bind it and start listening.
-        self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.serverSocket.bind((self.hostAddress, self.hostPort))
-        self.serverSocket.listen(8)
-
-        # Set status flag.
-        self.status = True
-
-    # Main loop method.
-    def acceptConnections(self):
-
-        # Check status flag.
-        while self.status == True:
-
-            # Receive connection and read data.
-            connection, address = self.serverSocket.accept()
+        while True:
             data = connection.recv(1024)
 
-            # Check if data exists.
             if not data:
+                break
 
-                # Send data back.
-                connection.send(data)
+            connection.sendall(data)
 
-            # Close connection.
-            connection.close()
-        else:
+        connection.close()
 
-            # Terminate server.
-            self.terminate()
-
-    # Terminate method.
-    def terminate(self):
-
-        # Close server socket.
-        self.serverSocket.close()
-
-chatServer = ChatServer("127.0.0.1", 8888)
-chatServer.initialise()
-chatServer.acceptConnections()
+chatServer = ChatServer("", 64)
+chatServer.listen()
