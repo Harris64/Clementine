@@ -1,12 +1,10 @@
 import sys
 
 from PySide import QtGui
-from Interface import Window
+from Interface import *
 
 def main():
-	application = QtGui.QApplication(sys.argv)
-	window = Window()
-	sys.exit(application.exec_())
+	interface = Interface()
 
 if __name__ == '__main__':
 	main()

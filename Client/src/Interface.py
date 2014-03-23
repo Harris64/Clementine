@@ -1,25 +1,61 @@
 import sys
-
-from PySide import QtCore
 from PySide import QtGui
 
-class Window(QtGui.QMainWindow):
+class Interface():
 	def __init__(self):
-		super(Window, self).__init__()
+		self.application = QtGui.QApplication(sys.argv)
+		self.homeWindow = HomeWindow(self)
+		self.gamesWindow = GamesWindow(self)
 
-		self.setGeometry(100, 100, 640, 480)
-		self.setWindowTitle("Clementine")
-		self.setWindowIcon(QtGui.QIcon("../../Games/Harris/res/icons/001-Weapon01.png"))
+		self.homeWindow.show()
 
-		self.gamesFrame = GamesFrame(self)
-		self.gamesFrame.show()
+		sys.exit(self.application.exec_())
 
-		self.show()
+	def showHomeWindow(self):
+		self.gamesWindow.hide()
+		self.homeWindow.show()
 
-	def closeEvent(self, event = QtGui.QCloseEvent):
-		response = QtGui.QMessageBox.question(self, "Message", "Are you sure you want to exit?", QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+	def showGamesWindow(self):
+		self.homeWindow.hide()
+		self.gamesWindow.show()
 
-		if response == QtGui.QMessageBox.Yes:
-			event.accept()
-		else:
-			event.ignore()
+class HomeWindow(QtGui.QWidget):
+	def __init__(self, parent):
+		super(HomeWindow, self).__init__()
+
+		self.gridLayout = QtGui.QGridLayout(self)
+		self.gridLayout.setSpacing(10)
+
+		self.homeButton = QtGui.QPushButton(self)
+		self.homeButton.setText("Home")
+
+		self.gamesButton = QtGui.QPushButton(self)
+		self.gamesButton.setText("Games")
+		self.gamesButton.clicked.connect(parent.showGamesWindow)
+
+		self.gridLayout.addWidget(self.homeButton, 1, 1)
+		self.gridLayout.addWidget(self.gamesButton, 2, 1)
+
+		self.setLayout(self.gridLayout)
+
+class GamesWindow(QtGui.QWidget):
+	def __init__(self, parent):
+		super(GamesWindow, self).__init__()
+
+		self.gridLayout = QtGui.QGridLayout(self)
+		self.gridLayout.setSpacing(10)
+
+		self.homeButton = QtGui.QPushButton(self)
+		self.homeButton.setText("Home")
+		self.homeButton.clicked.connect(parent.showHomeWindow)
+
+		self.gamesButton = QtGui.QPushButton(self)
+		self.gamesButton.setText("Games")
+
+		self.gridLayout.addWidget(self.homeButton, 1, 1)
+		self.gridLayout.addWidget(self.gamesButton, 2, 1)
+
+		self.setLayout(self.gridLayout)
+
+if __name__ == "__main__":
+	interface = Interface()
