@@ -7,9 +7,13 @@ class Window(QtGui.QMainWindow):
 	def __init__(self):
 		super(Window, self).__init__()
 
-		self.setGeometry(300, 300, 250, 150)
+		self.setGeometry(100, 100, 640, 480)
 		self.setWindowTitle("Clementine")
-		self.setWindowIcon(QtGui.QIcon("../Games/Harris/res/icons/001-Weapon01.png"))
+		self.setWindowIcon(QtGui.QIcon("../../Games/Harris/res/icons/001-Weapon01.png"))
+
+		self.gamesFrame = GamesFrame(self)
+		self.gamesFrame.show()
+
 		self.show()
 
 	def closeEvent(self, event = QtGui.QCloseEvent):
@@ -19,11 +23,3 @@ class Window(QtGui.QMainWindow):
 			event.accept()
 		else:
 			event.ignore()
-
-def main():
-	application = QtGui.QApplication(sys.argv)
-	window = Window()
-	sys.exit(application.exec_())
-
-if __name__ == '__main__':
-	main()
