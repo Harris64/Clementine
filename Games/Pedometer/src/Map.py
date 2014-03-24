@@ -13,5 +13,4 @@ class Map():
 		for x in range(self.width):
 			for y in range(self.height):
 				tileImage = self.imageGrid[136]
-				tileSprite = pyglet.sprite.Sprite(tileImage, self.parent.batch)
-				
+				tileImage.blit(x * 32, y * 32)

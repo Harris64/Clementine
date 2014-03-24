@@ -13,6 +13,8 @@ class Game():
 		self.window.on_key_release = self.keyUp
 		self.window.on_draw = self.render
 
+		self.fps = pyglet.clock.ClockDisplay()
+
 		pygame.init()
 		pygame.mixer.music.load("../res/audio/music/001-Battle01.mid")
 		pygame.mixer.music.play(-1, 0.0)
@@ -62,6 +64,7 @@ class Game():
 		self.background.blit(0, 0)
 		self.character.render()
 		self.label.draw()
+		self.fps.draw()
 
 if __name__ == "__main__":
 	game = Game()

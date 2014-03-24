@@ -52,8 +52,16 @@ class GamesWindow(QtGui.QWidget):
 		self.gamesButton = QtGui.QPushButton(self)
 		self.gamesButton.setText("Games")
 
+		self.gameImage = QtGui.QPixmap("../res/game1.png")
+
+		self.gameImages = [None, None, None, None, None, None, None, None]
+
+		for i in range(8):
+			self.gameImages[i] = QtGui.QPixmap("../res/game" + str(i) + ".png")
+
 		self.gridLayout.addWidget(self.homeButton, 1, 1)
 		self.gridLayout.addWidget(self.gamesButton, 2, 1)
+		self.gridLayout.addWidget(self.gameImage, 1, 2)
 
 		self.setLayout(self.gridLayout)
 
