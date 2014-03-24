@@ -1,5 +1,7 @@
 import pyglet
+import pygame
 
+from Map import *
 from Character import *
 
 class Game():
@@ -7,11 +9,16 @@ class Game():
 		self.window = pyglet.window.Window(640, 320)
 		self.window.set_caption("Pedometer")
 		self.window.set_icon(pyglet.image.load("../res/graphics/icons/020-Accessory05.png"))
-		self.window.on_key_press = self.input
+		self.window.on_key_press = self.keyDown
+		self.window.on_key_release = self.keyUp
 		self.window.on_draw = self.render
 
-		self.background = pyglet.image.load("../res/graphics/battlebacks/001-Grassland01.jpg")
+		pygame.init()
+		pygame.mixer.music.load("../res/audio/music/001-Battle01.mid")
+		pygame.mixer.music.play(-1, 0.0)
 
+		self.background = pyglet.image.load("../res/graphics/battlebacks/001-Grassland01.jpg")
+		self.map = Map(20, 10)
 		self.character = Character(self, 0, 0)
 		self.steps = 0
 
@@ -23,22 +30,38 @@ class Game():
 		pyglet.clock.schedule_interval(self.update, 0.5 / 32)
 		pyglet.app.run()
 
-	def input(self, symbol, modifiers):
+	def keyDown(self, symbol, modifiers):
 		if symbol == pyglet.window.key.UP:
-			self.character.move(0)
+			self.character.startMoving(0)
 		elif symbol == pyglet.window.key.RIGHT:
-			self.character.move(1)
+			self.character.startMoving(1)
 		elif symbol == pyglet.window.key.DOWN:
-			self.character.move(3)
+			self.character.startMoving(3)
 		elif symbol == pyglet.window.key.LEFT:
-			self.character.move(2)
+			self.character.startMoving(2)
+
+	def keyUp(self, symbol, modifiers):
+		if symbol == pyglet.window.key.UP:
+			if self.character.direction == 0:
+				self.character.stopMoving()
+		elif symbol == pyglet.window.key.RIGHT:
+			if self.character.direction == 1:
+				self.character.stopMoving()
+		elif symbol == pyglet.window.key.DOWN:
+			if self.character.direction == 3:
+				self.character.stopMoving()
+		elif symbol == pyglet.window.key.LEFT:
+			if self.character.direction == 2:
+				self.character.stopMoving()
 
 	def update(self, dt):
 		self.character.update()
+		self.label.text = "Steps: " + str(self.steps)
 
 	def render(self):
 		self.window.clear()
 		self.background.blit(0, 0)
+		# self.map.render()
 		self.character.render()
 		self.label.draw()
 
