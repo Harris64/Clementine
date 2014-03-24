@@ -18,7 +18,6 @@ class Game():
 		pygame.mixer.music.play(-1, 0.0)
 
 		self.background = pyglet.image.load("../res/graphics/battlebacks/001-Grassland01.jpg")
-		self.map = Map(20, 10)
 		self.character = Character(self, 0, 0)
 		self.steps = 0
 
@@ -61,7 +60,6 @@ class Game():
 	def render(self):
 		self.window.clear()
 		self.background.blit(0, 0)
-		# self.map.render()
 		self.character.render()
 		self.label.draw()
 
