@@ -24,7 +24,7 @@ rectDirectYtwo=6 #y direction of 2nd enemy
 MOVEXenemytwo=300 #second enemy variables which represents X value
 MOVEYenemytwo=150 #this represents second enemies Y position
 
-
+score = 0# score = 0 but goes up 1 when player collects gold sprite
 
 grey=(120,255,84) #grey colour
 black = (0,0,0) #black colour
@@ -49,6 +49,10 @@ class Sprite(pygame.sprite.Sprite): #creates class named sprite
         self.width = width #self.width is equal to width when it comes to applying it to objects inside the class
         self.height = height
         self.rect = pygame.Rect(x, y, width, height)
+
+    def move(self,x,y):
+        self.rect.move_ip((x,y))
+        self.rect.clamp_ip(Sprite)
         
 
     def renderSprite(self):
@@ -68,6 +72,9 @@ class Sprite2(pygame.sprite.Sprite): #creates class named sprite with base class
         self.height = height
         
         self.rect = pygame.Rect(x, y, width, height)
+    def PositionReset(self):
+        self.rect.x = random.randrange(0,440) #randrange gives random number between start(0) and end(440), 3
+        self.rect.y = random.randrange(0,400)
 
         
     def renderSprite2(self):
@@ -92,10 +99,10 @@ class Sprite3(pygame.sprite.Sprite): #enemy sprite
         pygame.draw.rect(window, red,(MOVEX, MOVEY, 20, 20))
         self.rect = pygame.Rect(MOVEX, MOVEY, self.width, self.height)
 
-class Sprite4(pygame.sprite.Sprite): #enemy sprite
+class Sprite4(pygame.sprite.Sprite): #enemy sprite 2nd, supposed to look and act same as first enemy sprite
     def __init__(self,MOVEXenemytwo,MOVEYenemytwo,width,height):
-        self.MOVEXenemytwo = MOVEXenemytwo
-        self.MOVEYenemytwo = MOVEYenemytwo
+        self.MOVEXenemytwo = MOVEXenemytwo #x position of 2nd enemy
+        self.MOVEYenemytwo = MOVEYenemytwo #y position of 2nd enemy
         self.width = width
         self.height = height
         self.rect = pygame.Rect(MOVEXenemytwo, MOVEYenemytwo, width, height)
@@ -119,18 +126,18 @@ gameLoop = True #variable is continuing loop so program events inside can contin
     
 
 while gameLoop: #while loop will contain if and for statements
-    if pygame.sprite.collide_rect(Sprite1, Spritethree):
+    if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
         pygame.quit()
     if pygame.sprite.collide_rect(Sprite1, Spritefour):
         pygame.quit()
+
+    if pygame.sprite.collide_rect(Sprite1, Spritetwo):
+        PositionReset()
+        
     
     for event in pygame.event.get():
         if (event.type==pygame.QUIT): #if pygame quits gameLoop is false and program ends
             gameLoop= False
-
-##    for Sprite2 in GoldSprite:
-##        score +=1
-##        print (score)
        
 
 
@@ -175,11 +182,7 @@ while gameLoop: #while loop will contain if and for statements
         rectDirectYtwo = -4
     elif MOVEYenemytwo < 0:
         MOVEYenemytwo = 0
-        
-        
-        
-        
-        
+    
 
     if MOVEX >=440: #MOVEX is greater than 440 (width of screen) then set MOVEX to 0 so it doesnt go off screen
         MOVEX = 440
@@ -212,9 +215,6 @@ while gameLoop: #while loop will contain if and for statements
     MOVEY += rectDirectY
     MOVEXenemytwo += rectDirectXtwo
     MOVEYenemytwo += rectDirectYtwo
-    
-   
-    
     
     
     
