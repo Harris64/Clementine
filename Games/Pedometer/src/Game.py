@@ -1,8 +1,8 @@
 import pyglet
 import pygame
 
-from Map import *
 from Character import *
+from Map import *
 
 class Game():
 	def __init__(self):
@@ -14,6 +14,8 @@ class Game():
 		self.window.on_draw = self.render
 
 		self.fps = pyglet.clock.ClockDisplay()
+
+		self.map = Map()
 
 		pygame.init()
 		pygame.mixer.music.load("../res/audio/music/001-Battle01.mid")
@@ -28,7 +30,7 @@ class Game():
 		pyglet.gl.glEnable(pyglet.gl.GL_BLEND)
 		pyglet.gl.glBlendFunc(pyglet.gl.GL_SRC_ALPHA, pyglet.gl.GL_ONE_MINUS_SRC_ALPHA)
 
-		pyglet.clock.schedule_interval(self.update, 0.5 / 32)
+		pyglet.clock.schedule_interval(self.update, 0.1 / 32)
 		pyglet.app.run()
 
 	def keyDown(self, symbol, modifiers):
@@ -62,6 +64,7 @@ class Game():
 	def render(self):
 		self.window.clear()
 		self.background.blit(0, 0)
+		self.map.draw()
 		self.character.render()
 		self.label.draw()
 		self.fps.draw()
