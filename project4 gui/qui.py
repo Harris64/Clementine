@@ -1,5 +1,6 @@
 import sys,PySide
 from PySide import *
+from chat import *
 
 class Clementine(QtGui.QMainWindow):##creates the class clementine
     
@@ -121,7 +122,6 @@ class Clementine(QtGui.QMainWindow):##creates the class clementine
         tileImage5.setPixmap(tile5)
 
 
- 
         
 def main():
     

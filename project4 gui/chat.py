@@ -1,10 +1,10 @@
 import sys
 from PySide import QtGui, QtCore
 
-class Example(QtGui.QWidget):
+class Chat(QtGui.QWidget):
     
     def __init__(self):
-        super(Example, self).__init__()
+        super(Chat, self).__init__()
         
         self.initUI()
         
@@ -19,7 +19,7 @@ class Example(QtGui.QWidget):
         qle.textChanged[str].connect(self.onChanged)
         
         self.setGeometry(300, 300, 280, 170)
-        self.setWindowTitle('QtGui.QLineEdit')
+        self.setWindowTitle('Chat')
         self.show()
         
     def onChanged(self, text):
@@ -31,7 +31,7 @@ class Example(QtGui.QWidget):
 def main():
     
     app = QtGui.QApplication(sys.argv)
-    ex = Example()
+    ex = Chat()
     sys.exit(app.exec_())
 
 
