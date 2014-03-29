@@ -13,9 +13,9 @@ class Clementine(QtGui.QMainWindow):##creates the class clementine
         self.Grouplogo()##calls definition
         self.Profilebuttons()##calls definition
         self.title()##calls definition
-        self.highScore1()
-        self.highScore2()
-        self.highScore3()
+        self.highScore1() #calls highScore1 function
+        self.highScore2() #calls highScore2 function
+        self.highScore3() #calls highScore3 function
         self.gameTiles()
         self.ownedGames()
         self.show()
@@ -25,15 +25,15 @@ class Clementine(QtGui.QMainWindow):##creates the class clementine
         
         menubar = self.menuBar()
 
-        fileMenu = menubar.addMenu('&File')
+        fileMenu = menubar.addMenu('&File') #this adds the file navigation menu options 
 
-        exitAction = QtGui.QAction(QtGui.QIcon('exit.png'), '&Exit', self)
+        exitAction = QtGui.QAction(QtGui.QIcon('exit.png'), '&Exit', self) 
         exitAction.setShortcut('Ctrl+Q')
-        exitAction.setStatusTip('Exit application')
+        exitAction.setStatusTip('Exit application') #this section gives options to the user involving exit button
         exitAction.triggered.connect(self.exitMessage)
         self.statusBar()
 
-        fileMenu.addAction(exitAction)
+        fileMenu.addAction(exitAction) #addAction creates an action
 
         aboutMenu = menubar.addMenu('&Help')
 
@@ -49,9 +49,9 @@ class Clementine(QtGui.QMainWindow):##creates the class clementine
     def Profilebuttons(self):
 
         
-        profileButton = QtGui.QPushButton('Messages',self)
-        profileButton.setStyleSheet("background-color:#CC0066")
-        profileButton.setGeometry(30, 200, 250, 30)
+        profileButton = QtGui.QPushButton('Messages',self) #defines button
+        profileButton.setStyleSheet("background-color:#CC0066") #defines button backgroundColour
+        profileButton.setGeometry(30, 200, 250, 30) #defines x and y location as well as size and width
         profileButton.setToolTip('Press to view messages') #this brings up info
         #about button when it is highlighted over, but not clicked
 
@@ -75,25 +75,25 @@ class Clementine(QtGui.QMainWindow):##creates the class clementine
 
         
     def Grouplogo(self):
-        pixmap = QtGui.QPixmap("logo.png")
-        logoImage = QtGui.QLabel(self)
+        pixmap = QtGui.QPixmap("logo.png") #shows picture on top left corner
+        logoImage = QtGui.QLabel(self) #converts to label
         logoImage.setGeometry(90, 30, 150, 150)
-        logoImage.setPixmap(pixmap)
+        logoImage.setPixmap(pixmap) #prints it
 
     def title(self):
-        title = QtGui.QLabel("<font color=blue size=30>Profile</font>",self)
-        title.setGeometry(350, 0, 800, 40)
-        title.setStyleSheet("background-color:#E68B4F")
-        title.setAlignment(QtCore.Qt.AlignCenter)
+        title = QtGui.QLabel("<font color=blue size=30>Profile</font>",self) #prints profile text with font colour blue and is a label
+        title.setGeometry(350, 0, 800, 40) #sets location of label
+        title.setStyleSheet("background-color:#E68B4F") #sets background colour
+        title.setAlignment(QtCore.Qt.AlignCenter) #Label will be aligned in the center of screen
     def ownedGames(self):
         owned = QtGui.QLabel("<font color=grey size=25>Owned Games</font>",self)
         owned.setGeometry(631,45,200,40)
         owned.setStyleSheet("background-color:#FFCC33")
         owned.setAlignment(QtCore.Qt.AlignCenter)
     def exitMessage(self):
-       exitResponce = QtGui.QMessageBox.question(self, 'Message',
+       exitResponse = QtGui.QMessageBox.question(self, 'Message', #function if user wants to quit
             "Are you sure you want to quit?", QtGui.QMessageBox.Yes,QtGui.QMessageBox.No)
-       if exitResponce == QtGui.QMessageBox.Yes:
+       if exitResponse == QtGui.QMessageBox.Yes:
            sys.exit()            
        else:
             False        
@@ -102,10 +102,10 @@ class Clementine(QtGui.QMainWindow):##creates the class clementine
             "We are the best team ever!!!")
     def gameTiles(self):
 
-        tile1 = QtGui.QPixmap("OusmanGame.jpg")
+        tile1 = QtGui.QPixmap("OusmanGame.jpg") #loads in image and creates variable for it
         tileImage1 = QtGui.QLabel(self)
-        tileImage1.setGeometry(300, 50, 320, 400)
-        tileImage1.setPixmap(tile1)
+        tileImage1.setGeometry(300, 50, 320, 400) #sets picture location
+        tileImage1.setPixmap(tile1) #tileImage1 equal to label and converted to image
 
         tile2 = QtGui.QPixmap("AlexGame.jpg")
         tileImage2 = QtGui.QLabel(self)
@@ -185,7 +185,7 @@ class Clementine(QtGui.QMainWindow):##creates the class clementine
 def main():
     
     app = QtGui.QApplication(sys.argv) 
-    gui = Clementine()
+    gui = Clementine() #gui equals the class created earlier in the program named clementine
     sys.exit(app.exec_())
 
 
