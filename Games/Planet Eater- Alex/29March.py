@@ -43,7 +43,7 @@ direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where sh
 
 
 TextFont = pygame.font.SysFont(None,36) #this briefly brings up the start menu
-EndFont = TextFont.render('Start Screen',True, (255,255,255), (0,0,0)) #this renders the text and gives it its fore and background colour
+EndFont = TextFont.render('Planet Eater, Press P to pause the game',True, (255,255,255), (0,0,0)) #this renders the text and gives it its fore and background colour
 RECT = EndFont.get_rect() #create a variable named RECT to store render variable previous and get rectangle shape
 RECT.centerx = window.get_rect().centerx 
 RECT.centery = window.get_rect().centery
@@ -142,15 +142,12 @@ gameLoop = True #variable is continuing loop so program events inside can contin
 while gameLoop: #while loop will contain if and for statements
     if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
         pygame.quit()
-        GameOver()
+        break
         
     if pygame.sprite.collide_rect(Sprite1, Spritefour):
         pygame.quit()
         break
 
-    
-        
-        
 
     
     
@@ -195,11 +192,10 @@ while gameLoop: #while loop will contain if and for statements
             if (event.key==pygame.K_DOWN): #down is 0 as player is no touching key buttons
                 direc2 = 0
                 
-    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-        Spritetwo.x=random.randrange(0,220)
-        Spritetwo.y=random.randrange(0,200)
-            
-   
+        if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+            Spritetwo.x=random.randrange(0,440,2) #when sprite1 collides with spritetwo its x and y co-ords will display in a random place between 0 and 440 and 0 and 400
+            Spritetwo.y=random.randrange(0,400,2)
+            score+=1
     
     
         
@@ -236,9 +232,9 @@ while gameLoop: #while loop will contain if and for statements
     
     Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
     Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
-    if Sprite1.x  > 440:
-        pygame.quit()
-        break
+    if Sprite1.x  > 440: #if Sprite1 (one player controls goes out of screen, end game)
+        pygame.quit() #pygame will end
+        break #break will stop code after running
         
     elif Sprite1.y > 400:
         pygame.quit()
