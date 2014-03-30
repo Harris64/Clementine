@@ -1,5 +1,7 @@
 import pygame #import pygame
 pygame.init() #initialises pygame
+
+pygame.font.init()
 from pygame.locals import * #imports additional pygame modules which are seen as not usually needed
 
 import random #imports random module to allow for randrange and randint
@@ -8,9 +10,10 @@ width=440 #set width of screen for future use
 height=400 #set height of screen for future use
 
 window = pygame.display.set_mode((440,400)) #sets window size to 440 pixels wide, 400 pixels high
-
+pygame.display.set_mode((width,height))
+GameOver = pygame.image.load('gameover.jpg')
 background = pygame.image.load('OUTERSPACE.jpg') #gives the background image
-font = pygame.font.Font(None, 36)
+fonts = pygame.font.SysFont(None, 36)
 pygame.display.set_caption("Score: 0            Planet eater!") #displays captions/title for game
 clock = pygame.time.Clock()
 
@@ -24,7 +27,7 @@ rectDirectYtwo=6 #y direction of 2nd enemy
 MOVEXenemytwo=300 #second enemy variables which represents X value
 MOVEYenemytwo=150 #this represents second enemies Y position
 
-score = []# score = 0 but goes up 1 when player collects gold sprite
+score = 0# score = 0 but goes up 1 when player collects gold sprite
 
 grey=(120,255,84) #grey colour
 black = (0,0,0) #black colour
@@ -36,8 +39,12 @@ pygame.mixer.music.load('menusound.mp3') #loads music file to play
 pygame.mixer.music.play(-1,0.0) #plays music, -1 means loop song infinitely, 0.0 is where from song should it start
 direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where shape will go if keyboard keys pressed
 
+def StartScreen(text="Start Screen"):
+    thefont = pygame.font.SysFont("None", random.randint(34,128))
+    rendertxt = thefont.render(text,True, white)
+    rendertxt = rendertxt.convert_alpha()
+    return rendertxt
 
-    
 
 class Sprite(pygame.sprite.Sprite): #creates class named sprite
 
@@ -121,7 +128,7 @@ Spritefour=Sprite4(200,172,30,15)
 
 playerScore=pygame.sprite.collide_rect(Sprite1, Spritetwo)
 
-pygame.display.flip()
+pygame.display.update()
 
 gameLoop = True #variable is continuing loop so program events inside can continously be used and played
     
@@ -133,6 +140,9 @@ while gameLoop: #while loop will contain if and for statements
     if pygame.sprite.collide_rect(Sprite1, Spritefour):
         pygame.quit()
         break
+
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+        score +=1
     
     
     for event in pygame.event.get():
@@ -159,12 +169,11 @@ while gameLoop: #while loop will contain if and for statements
             if (event.key==pygame.K_ESCAPE):
                 pygame.quit() #when escape button pressed, game closes
 
-            if direc1 > 440:
-                pygame.quit()
-            elif direc2 > 400:
-                pygame.quit()
-
-                
+            if (event.key==pygame.K_p): #if user presses p
+                pygame.time.wait(3000) #if user presses p the pygame program will wait a certain amount of milliseconds
+                pygame.font.SysFont('helvetica', 12)
+                pygame.font.render("Paused",12,white,background=None)#3000 milliseconds is equal to 3 seconds
+                        
         if (event.type==pygame.KEYUP): #keyup when player doesnt have fingers on keys
 
             if (event.key==pygame.K_LEFT): #left is 0 as player is no touching key buttons
@@ -175,9 +184,7 @@ while gameLoop: #while loop will contain if and for statements
                 direc2 = 0
             if (event.key==pygame.K_DOWN): #down is 0 as player is no touching key buttons
                 direc2 = 0
-                
-    if pygame.sprite.collide_rect(Sprite1, Spritetwo):
-        resetPos()
+            
    
     
   
@@ -218,14 +225,16 @@ while gameLoop: #while loop will contain if and for statements
     if Sprite1.x  > 440:
         pygame.quit()
         break
+        
     elif Sprite1.y > 400:
         pygame.quit()
+        
         break
 
     
-    
     window.blit(background, (20,50))
 
+    
     
     Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
     Spritetwo.renderSprite2() #renders second sprite and enables it to be seen by user
