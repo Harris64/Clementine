@@ -1,6 +1,4 @@
-import pygame
-import sys
-import random
+import pygame, sys,random
 from pygame.locals import *
 
 chooseX=random.randint(0, 1000) # random number to be used for the x axis
@@ -13,38 +11,54 @@ bgi ="shoot.jpg" #background image
 
 mif ="scope.png" #cursor image
 
+gun ="gunshot.wav" #gunshot sound
+
 if chooseY > 250:
     kil ="killer_edited.png"
 else:
     kil = "killer.png"
 
+killed=0
 
+pygame.init()
+screen=pygame.display.set_mode((1280,720),0,32)
+pygame.display.set_caption("Shooter")
+
+
+#class Menu():
+    
 
 class shootingGame():
-    pygame.init()
-    screen=pygame.display.set_mode((1280,720),0,32)
-
+    
     background=pygame.image.load(bgi).convert()
     mouse_c=pygame.image.load(mif)
     killer=pygame.image.load(kil)
 
     
-    #rect = pygame.draw.rect(screen,red,10,10)
-    #sprites_clicked = [sprite for sprite in all_my_sprites_list if sprite.rect.collidepoint(x, y)]
+    clock = pygame.time.Clock()
 
+    textFont = pygame.font.SysFont("Arial", 15)
+   
+    def score():
+        label = textFont.render("Score:",(255,255,0))
+        screen.blit(label, (100, 100))
+
+    def gunSound():
+        pygame.mixer.music.load(gun) #loads bang file from global variable gun.
+        pygame.mixer.music.play(0,0) 
+    
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN and (chooseX < x < chooseX2) and (chooseY < y < chooseY2): 
-                print chooseX
-                print chooseY
+            if event.type == pygame.MOUSEBUTTONDOWN:# and (chooseX < x < chooseX2) and (chooseY < y < chooseY2): 
+                gunSound()
+                killed+=1
+                print killed
                 chooseX=random.randint(0, 1000)
                 chooseY=random.randint(0,450)
-                print pygame.mouse.get_pos()
-                print chooseX
-                print chooseY
+                
 
         screen.blit(background,(0,0))
 
@@ -55,7 +69,8 @@ class shootingGame():
         screen.blit(killer,(chooseX,chooseY))
         screen.blit(mouse_c,(x,y))
         pygame.mouse.set_visible(False)
-        
+
+        clock.tick(30) 
 
         pygame.display.update()
 
