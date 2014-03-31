@@ -112,7 +112,6 @@ Spritetwo=Sprite2(105,200,15,14)
 Spritethree=Sprite3(100,200,20,20)
 Spritefour=Sprite4(200,172,30,15)
 
-pygame.time.set_timer(Spritetwo,60000)
 
 pygame.display.update()
 
@@ -122,22 +121,42 @@ gameLoop = True #variable is continuing loop so program events inside can contin
 while gameLoop: #while loop will contain if and for statements
     if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
         pygame.quit()
+        
         break
     if pygame.sprite.collide_rect(Sprite1, Spritefour):
         pygame.quit()
+        print "Your high score was", score
+        print "Game Over"
+        break
+    
+
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+        pygame.quit()
+        print "Your high score was", score
+        print "Game Over"
+        
         break
 
     if pygame.sprite.collide_rect(Sprite1,Spritetwo):
         pygame.quit()
+        print "Your high score was", score
+        print "Game Over"
+        
         break
-
-    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-        score +=1
+        
     
     
     for event in pygame.event.get():
         if (event.type==pygame.QUIT): #if pygame quits gameLoop is false and program ends
             gameLoop= False
+
+        if gameLoop == False:
+            FontText = fonts.render("Game Over for you",True,white)
+            FontRect = FontText.get_rect()
+            FontRectX = width / 2 - FontRect.width / 2
+            FontRectY = height / 2 - FontRect.height / 2
+            window.blit(FontText, [FontRectX, FontRectY])
+        
 
 
         if (event.type==pygame.KEYDOWN): #what happens when player has key down
