@@ -1,6 +1,7 @@
 import pygame #import pygame
 pygame.init() #initialises pygame
 
+pygame.font.init()
 from pygame.locals import * #imports additional pygame modules which are seen as not usually needed
 
 import random #imports random module to allow for randrange and randint
@@ -11,27 +12,27 @@ height=400 #set height of screen for future use
 window = pygame.display.set_mode((440,400)) #sets window size to 440 pixels wide, 400 pixels high
 pygame.display.set_mode((width,height))
 GameOver = pygame.image.load('gameover.jpg')
-
 background = pygame.image.load('OUTERSPACE.jpg') #gives the background image
-pygame.display.set_caption("Planet eater!") #displays captions/title for game
-clock = pygame.time.Clock() #used to control framerate of game
-
-
+fonts = pygame.font.SysFont(None, 36)
+pygame.display.set_caption("Score: 0            Planet eater!") #displays captions/title for game
+clock = pygame.time.Clock()
 
 MOVEX = 100 #position of rectangle
 MOVEY = 300 #position of rectangle
 rectDirectX=5 #this is the direction and speed of rectangle1 (first enemy)
 rectDirectY=3 #direction of first enemy in y co-ords
+
 rectDirectXtwo=4 #direction of 2nd enemy it will travel this plus MOVEXenemytwo variable so it will move and bounce around screen
 rectDirectYtwo=6 #y direction of 2nd enemy
-
 MOVEXenemytwo=300 #second enemy variables which represents X value
 MOVEYenemytwo=150 #this represents second enemies Y position
 
-score = 0# score = 0 but goes up 1 when player collects gold sprite
+MOVEXenemythree=200
+MOVEYenemythree=90
+rectDirectXthree=9
+rectDirectYthree=8
 
-MOVEXenemySecond=5
-MOVEYenemySecond=9
+score = 0# score = 0 but goes up 1 when player collects gold sprite
 
 grey=(120,255,84) #grey colour
 black = (0,0,0) #black colour
@@ -42,6 +43,8 @@ red= (255,20,10) #red colour
 pygame.mixer.music.load('menusound.mp3') #loads music file to play
 pygame.mixer.music.play(-1,0.0) #plays music, -1 means loop song infinitely, 0.0 is where from song should it start
 direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where shape will go if keyboard keys pressed
+
+
 
 class Sprite(pygame.sprite.Sprite): #creates class named sprite
 
@@ -56,12 +59,11 @@ class Sprite(pygame.sprite.Sprite): #creates class named sprite
         
 
     def renderSprite(self):
-        pygame.draw.rect(window,red,(MOVEXenemySecond,MOVEYenemySecond,30, 9)) #this function renders the class and draws and rectangle with the attributes found in the class
-        self.rect = pygame.Rect(MOVEXenemySecond, MOVEYenemySecond, self.width, self.height) #converts rectangle to one PYGAME can use
+        pygame.draw.rect(window,grey,(self.x,self.y,self.width, self.height)) #this function renders the class and draws and rectangle with the attributes found in the class
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height) #converts rectangle to one PYGAME can use
 
 
-
-class Sprite2(pygame.sprite.Sprite):
+class Sprite2(pygame.sprite.Sprite): #enemy sprite
     def __init__(self,x,y,width,height):
         self.x = x
         self.y = y
@@ -69,13 +71,11 @@ class Sprite2(pygame.sprite.Sprite):
         self.height = height
         self.rect = pygame.Rect(x, y, width, height)
 
-    def renderSprite2(self):
-        pygame.draw.rect(window, red,(MOVEX, MOVEY, 20, 20))
-        self.rect = pygame.Rect(MOVEX, MOVEY, self.width, self.height)
     
 
-
-
+    def renderSprite2(self):
+        pygame.draw.rect(window, red,(MOVEXenemythree, MOVEYenemythree, 25, 20))
+        self.rect = pygame.Rect(MOVEXenemythree, MOVEYenemythree, self.width, self.height)
 
 class Sprite3(pygame.sprite.Sprite): #enemy sprite
     def __init__(self,x,y,width,height):
@@ -108,27 +108,31 @@ class Sprite4(pygame.sprite.Sprite): #enemy sprite 2nd, supposed to look and act
 
 Sprite1=Sprite(20,35,15,14)#player sprite is 200 pixels across and 250 pixels down at starting point, 15 pixels wide, 14 high
 
+Spritetwo=Sprite2(105,200,15,14) 
 Spritethree=Sprite3(100,200,20,20)
 Spritefour=Sprite4(200,172,30,15)
 
+pygame.time.set_timer(Spritetwo,60000)
 
 pygame.display.update()
-
 
 gameLoop = True #variable is continuing loop so program events inside can continously be used and played
     
 
 while gameLoop: #while loop will contain if and for statements
-
-    
     if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
         pygame.quit()
         break
-        
     if pygame.sprite.collide_rect(Sprite1, Spritefour):
         pygame.quit()
         break
 
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+        pygame.quit()
+        break
+
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+        score +=1
     
     
     for event in pygame.event.get():
@@ -141,32 +145,31 @@ while gameLoop: #while loop will contain if and for statements
             if (event.key==pygame.K_LEFT): #go left x axis, -5, because getting closer to left
 
                 direc1 = -4
-                score+=0.2
+                score+=1
                 print score
 
             if (event.key==pygame.K_RIGHT): #go right x axis, 5, because adding 5 closer to right
 
                 direc1= 4
-                score+=0.2
+                score+=1
                 print score
 
             if (event.key==pygame.K_DOWN): #go down y axis, 5, 
                 direc2 = 4
-                score+=0.2
+                score+=1
                 print score
 
             if (event.key==pygame.K_UP): #go up 
                 direc2 = -4
-                score+=0.2
+                score+=1
                 print score
 
             if (event.key==pygame.K_ESCAPE):
                 pygame.quit() #when escape button pressed, game closes
 
             if (event.key==pygame.K_p): #if user presses p
-                
-                pygame.time.wait(2700) #if user presses p the pygame program will wait a certain amount of milliseconds
-                                       #3000 milliseconds is equal to 3 seconds
+                pygame.time.wait(3000) #if user presses p the pygame program will wait a certain amount of milliseconds
+                #3000 milliseconds is equal to 3 seconds
                         
         if (event.type==pygame.KEYUP): #keyup when player doesnt have fingers on keys
 
@@ -178,22 +181,32 @@ while gameLoop: #while loop will contain if and for statements
                 direc2 = 0
             if (event.key==pygame.K_DOWN): #down is 0 as player is no touching key buttons
                 direc2 = 0
-                
-        
             
-    
-    
+   
+    if MOVEXenemythree > 420:
+        MOVEXenemythree = 420
+        rectDirectXthree = -3
+    elif MOVEXenemythree < 0:
+        MOVEXenemythree = 0
+        rectDirectXthree = 5
+    elif MOVEYenemythree > 400:
+        MOVEYenemythree = 395
+        rectDirectYthree = - 4
+    elif MOVEYenemythree < 0:
+        MOVEYenemythree = 0
+        rectDirectYthree = 6
+  
         
 
-    if MOVEXenemytwo > 440: #second enemy movement
+    if MOVEXenemytwo > 440:
         MOVEXenemytwo = 440
-        rectDirectXtwo= - 6
+        rectDirectXtwo= -4
     elif MOVEXenemytwo < 0:
         MOVEXenemytwo = 0
-        rectDirectXtwo = 8
+        rectDirectXtwo = 4
     elif MOVEYenemytwo > 400:
         MOVEYenemytwo = 400
-        rectDirectYtwo = -3
+        rectDirectYtwo = -4
     elif MOVEYenemytwo < 0:
         MOVEYenemytwo = 0
     
@@ -210,52 +223,41 @@ while gameLoop: #while loop will contain if and for statements
     elif MOVEY <0:
         MOVEY = 0
         rectDirectY = 5
-
-    Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
-    Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
-
-            
-
-
-
     
     window.fill(black) #fills window with black
 
 
     
-    
-    if Sprite1.x  > 440: #if Sprite1 (one player controls goes out of screen, end game)
-        pygame.quit() #pygame will end
-        break #break will stop code after running
-    
-    elif Sprite1.x < 0: #if sprite1, that player controls goes off screen to the left the game will quit
-        pygame.quit() #quits pygame
-        break #stops loop
-    elif Sprite1.y > 400:
+    Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
+    Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
+    if Sprite1.x  > 440:
         pygame.quit()
         break
-    elif Sprite1.y < 0:
+        
+    elif Sprite1.y > 400:
         pygame.quit()
+        
         break
 
     
-    window.blit(background, (20,50)) #blits background onto screen
+    window.blit(background, (20,50))
 
     
     
     Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
+    Spritetwo.renderSprite2() #defines enemy
     Spritethree.renderSprite3() #defines first enemy
     Spritefour.renderSprite4() #defines second enemy
-    MOVEX += rectDirectX #adds together first position plus rect direction its told to go
+    MOVEX += rectDirectX
     MOVEY += rectDirectY
-    MOVEXenemytwo += rectDirectXtwo #adds together the initial position as well as position it has been told to go resulting in random movement
+    MOVEXenemytwo += rectDirectXtwo
     MOVEYenemytwo += rectDirectYtwo
+    MOVEXenemythree += rectDirectXthree
+    MOVEYenemythree += rectDirectYthree
     
     
     
-    clock.tick(43) #measures speed of sprite movement
-
-
+    clock.tick(40) #measures speed of sprite movement
 
     pygame.display.flip() #this updates the whole window, and performs same function as .update
 
