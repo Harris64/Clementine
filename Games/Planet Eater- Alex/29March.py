@@ -12,11 +12,9 @@ window = pygame.display.set_mode((440,400)) #sets window size to 440 pixels wide
 pygame.display.set_mode((width,height))
 GameOver = pygame.image.load('gameover.jpg')
 
-
-
 background = pygame.image.load('OUTERSPACE.jpg') #gives the background image
 fonts = pygame.font.SysFont(None, 36)
-pygame.display.set_caption("Score: 0            Planet eater!") #displays captions/title for game
+pygame.display.set_caption("Planet eater!") #displays captions/title for game
 clock = pygame.time.Clock()
 
 MOVEX = 100 #position of rectangle
@@ -81,9 +79,6 @@ class Sprite2(pygame.sprite.Sprite): #creates class named sprite with base class
         self.height = height
         
         self.rect = pygame.Rect(x, y, width, height)
-
-        
-    
 
         
     def renderSprite2(self):
@@ -152,19 +147,6 @@ while gameLoop: #while loop will contain if and for statements
         pygame.quit()
         break
 
-    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-            Spritetwo.x=random.randrange(0,400,2) #when sprite1 collides with spritetwo its x and y co-ords will display in a random place between 0 and 400 which is less than actual width
-            #and 0 and 360 just so player doesnt have to struggle with losing because of accidentally leaving screen when trying to collect gold
-            Spritetwo.y=random.randrange(0,360,2)
-            score +1
-            print score
-                
-
-    
-
-
-    
-    
     
     
     for event in pygame.event.get():
@@ -193,7 +175,7 @@ while gameLoop: #while loop will contain if and for statements
 
             if (event.key==pygame.K_p): #if user presses p
                 
-                pygame.time.wait(2000) #if user presses p the pygame program will wait a certain amount of milliseconds
+                pygame.time.wait(2700) #if user presses p the pygame program will wait a certain amount of milliseconds
                                        #3000 milliseconds is equal to 3 seconds
                         
         if (event.type==pygame.KEYUP): #keyup when player doesnt have fingers on keys
@@ -238,6 +220,13 @@ while gameLoop: #while loop will contain if and for statements
     elif MOVEY <0:
         MOVEY = 0
         rectDirectY = 5
+
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+            Spritetwo.x=random.randrange(0,400,2) #when sprite1 collides with spritetwo its x and y co-ords will display in a random place between 0 and 400 which is less than actual width
+            #and 0 and 360 just so player doesnt have to struggle with losing because of accidentally leaving screen when trying to collect gold
+            Spritetwo.y=random.randrange(0,360,2)
+            score= +1
+            print score
     
     window.fill(black) #fills window with black
 
@@ -248,14 +237,19 @@ while gameLoop: #while loop will contain if and for statements
     if Sprite1.x  > 440: #if Sprite1 (one player controls goes out of screen, end game)
         pygame.quit() #pygame will end
         break #break will stop code after running
-        
+    
+    elif Sprite1.x < 0: #if sprite1, that player controls goes off screen to the left the game will quit
+        pygame.quit() #quits pygame
+        break #stops loop
     elif Sprite1.y > 400:
         pygame.quit()
-        
+        break
+    elif Sprite1.y < 0:
+        pygame.quit()
         break
 
     
-    window.blit(background, (20,50))
+    window.blit(background, (20,50)) #blits background onto screen
 
     
     
@@ -263,9 +257,9 @@ while gameLoop: #while loop will contain if and for statements
     Spritetwo.renderSprite2() #renders second sprite and enables it to be seen by user
     Spritethree.renderSprite3() #defines first enemy
     Spritefour.renderSprite4() #defines second enemy
-    MOVEX += rectDirectX
+    MOVEX += rectDirectX #adds together first position plus rect direction its told to go
     MOVEY += rectDirectY
-    MOVEXenemytwo += rectDirectXtwo
+    MOVEXenemytwo += rectDirectXtwo #adds together the initial position as well as position it has been told to go resulting in random movement
     MOVEYenemytwo += rectDirectYtwo
     
     
