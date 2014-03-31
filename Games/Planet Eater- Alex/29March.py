@@ -42,13 +42,14 @@ pygame.mixer.music.play(-1,0.0) #plays music, -1 means loop song infinitely, 0.0
 direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where shape will go if keyboard keys pressed
 
 
-TextFont = pygame.font.SysFont(None,36) #this briefly brings up the start menu
-EndFont = TextFont.render('Planet Eater, Press P to pause the game',True, (255,255,255), (0,0,0)) #this renders the text and gives it its fore and background colour
-RECT = EndFont.get_rect() #create a variable named RECT to store render variable previous and get rectangle shape
-RECT.centerx = window.get_rect().centerx 
-RECT.centery = window.get_rect().centery
-window.fill((0,0,0))
-window.blit(EndFont,RECT)
+def StartScreen():
+    TextFont = pygame.font.SysFont(None,36) #this briefly brings up the start menu
+    EndFont = TextFont.render('Planet Eater, Press P to pause the game',True, (255,255,255), (0,0,0)) #this renders the text and gives it its fore and background colour
+    RECT = EndFont.get_rect() #create a variable named RECT to store render variable previous and get rectangle shape
+    RECT.centerx = window.get_rect().centerx 
+    RECT.centery = window.get_rect().centery
+    window.fill((0,0,0))
+    window.blit(EndFont,RECT)
 
 
 class Sprite(pygame.sprite.Sprite): #creates class named sprite
@@ -140,6 +141,9 @@ gameLoop = True #variable is continuing loop so program events inside can contin
     
 
 while gameLoop: #while loop will contain if and for statements
+
+    StartScreen()
+    
     if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
         pygame.quit()
         break
@@ -148,7 +152,18 @@ while gameLoop: #while loop will contain if and for statements
         pygame.quit()
         break
 
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+            Spritetwo.x=random.randrange(0,400,2) #when sprite1 collides with spritetwo its x and y co-ords will display in a random place between 0 and 400 which is less than actual width
+            #and 0 and 360 just so player doesnt have to struggle with losing because of accidentally leaving screen when trying to collect gold
+            Spritetwo.y=random.randrange(0,360,2)
+            score +1
+            print score
+                
 
+    
+
+
+    
     
     
     
@@ -178,7 +193,7 @@ while gameLoop: #while loop will contain if and for statements
 
             if (event.key==pygame.K_p): #if user presses p
                 
-                pygame.time.wait(3000) #if user presses p the pygame program will wait a certain amount of milliseconds
+                pygame.time.wait(2000) #if user presses p the pygame program will wait a certain amount of milliseconds
                                        #3000 milliseconds is equal to 3 seconds
                         
         if (event.type==pygame.KEYUP): #keyup when player doesnt have fingers on keys
@@ -192,10 +207,8 @@ while gameLoop: #while loop will contain if and for statements
             if (event.key==pygame.K_DOWN): #down is 0 as player is no touching key buttons
                 direc2 = 0
                 
-        if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-            Spritetwo.x=random.randrange(0,440,2) #when sprite1 collides with spritetwo its x and y co-ords will display in a random place between 0 and 440 and 0 and 400
-            Spritetwo.y=random.randrange(0,400,2)
-            score+=1
+        
+            
     
     
         
