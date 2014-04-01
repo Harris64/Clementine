@@ -16,7 +16,8 @@ background = pygame.image.load('OUTERSPACE.jpg') #gives the background image
 fonts = pygame.font.SysFont(None, 36)
 pygame.display.set_caption("Planet eater!") #displays captions/title for game
 clock = pygame.time.Clock()
-
+start=pygame.image.load("start.jpg")
+first=0
 MOVEX = 100 #position of rectangle
 MOVEY = 300 #position of rectangle
 rectDirectX=5 #this is the direction and speed of rectangle1 (first enemy)
@@ -26,13 +27,13 @@ rectDirectXtwo=4 #direction of 2nd enemy it will travel this plus MOVEXenemytwo 
 rectDirectYtwo=6 #y direction of 2nd enemy
 MOVEXenemytwo=230 #second enemy variables which represents X value
 MOVEYenemytwo=150 #this represents second enemies Y position
-
+playGame=0
 MOVEXenemythree=200
 MOVEYenemythree=90
 rectDirectXthree=9
 rectDirectYthree=8
 
-score = 0# score = 0 but goes up 1 when player collects gold sprite
+score=0
 
 grey=(120,255,84) #grey colour
 black = (0,0,0) #black colour
@@ -43,7 +44,6 @@ red= (255,20,10) #red colour
 pygame.mixer.music.load('menusound.mp3') #loads music file to play
 pygame.mixer.music.play(-1,0.0) #plays music, -1 means loop song infinitely, 0.0 is where from song should it start
 direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where shape will go if keyboard keys pressed
-
 
 
 class Sprite(pygame.sprite.Sprite): #creates class named sprite
@@ -198,6 +198,15 @@ while gameLoop: #while loop will contain if and for statements
                 direc2 = 0
             if (event.key==pygame.K_DOWN): #down is 0 as player is no touching key buttons
                 direc2 = 0
+                
+        if playGame==0:
+            window.blit(start,(0,0))
+
+            if event.type==pygame.KEYDOWN:
+                if event.key==K_SPACE:
+                    playGame+=1
+            
+        
 
             
    
@@ -275,17 +284,10 @@ while gameLoop: #while loop will contain if and for statements
     window.blit(background, (20,50))
 
     
+
     
-    Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
-    Spritetwo.renderSprite2() #defines enemy
-    Spritethree.renderSprite3() #defines first enemy
-    Spritefour.renderSprite4() #defines second enemy
-    MOVEX += rectDirectX
-    MOVEY += rectDirectY
-    MOVEXenemytwo += rectDirectXtwo
-    MOVEYenemytwo += rectDirectYtwo
-    MOVEXenemythree += rectDirectXthree
-    MOVEYenemythree += rectDirectYthree
+    
+    
     
     
     
