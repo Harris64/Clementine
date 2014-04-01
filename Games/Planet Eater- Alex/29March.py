@@ -14,7 +14,7 @@ pygame.display.set_mode((width,height))
 GameOver = pygame.image.load('gameover.jpg')
 background = pygame.image.load('OUTERSPACE.jpg') #gives the background image
 fonts = pygame.font.SysFont(None, 36)
-pygame.display.set_caption("Score: 0            Planet eater!") #displays captions/title for game
+pygame.display.set_caption("Planet eater!") #displays captions/title for game
 clock = pygame.time.Clock()
 
 MOVEX = 100 #position of rectangle
@@ -24,7 +24,7 @@ rectDirectY=3 #direction of first enemy in y co-ords
 
 rectDirectXtwo=4 #direction of 2nd enemy it will travel this plus MOVEXenemytwo variable so it will move and bounce around screen
 rectDirectYtwo=6 #y direction of 2nd enemy
-MOVEXenemytwo=300 #second enemy variables which represents X value
+MOVEXenemytwo=230 #second enemy variables which represents X value
 MOVEYenemytwo=150 #this represents second enemies Y position
 
 MOVEXenemythree=200
@@ -48,7 +48,8 @@ direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where sh
 
 class Sprite(pygame.sprite.Sprite): #creates class named sprite
 
-    def __init__(self,x,y,width,height): #self is reference used to objects attributes
+    def __init__(self,x,y,width,height):
+        pygame.sprite.Sprite.__init__(self) #self is reference used to objects attributes
 
         self.x =x #x is equal to x co-ordinate
         self.y =y #y is equal to y co-ordinate#
@@ -65,6 +66,7 @@ class Sprite(pygame.sprite.Sprite): #creates class named sprite
 
 class Sprite2(pygame.sprite.Sprite): #enemy sprite
     def __init__(self,x,y,width,height):
+        pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.width = width
@@ -79,6 +81,7 @@ class Sprite2(pygame.sprite.Sprite): #enemy sprite
 
 class Sprite3(pygame.sprite.Sprite): #enemy sprite
     def __init__(self,x,y,width,height):
+        pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.width = width
@@ -93,6 +96,7 @@ class Sprite3(pygame.sprite.Sprite): #enemy sprite
 
 class Sprite4(pygame.sprite.Sprite): #enemy sprite 2nd, supposed to look and act same as first enemy sprite
     def __init__(self,MOVEXenemytwo,MOVEYenemytwo,width,height):
+        pygame.sprite.Sprite.__init__(self)
         self.MOVEXenemytwo = MOVEXenemytwo #x position of 2nd enemy
         self.MOVEYenemytwo = MOVEYenemytwo #y position of 2nd enemy
         self.width = width
@@ -121,7 +125,8 @@ gameLoop = True #variable is continuing loop so program events inside can contin
 while gameLoop: #while loop will contain if and for statements
     if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
         pygame.quit()
-        
+        print "Your high score was", score
+        print "Game Over"
         break
     if pygame.sprite.collide_rect(Sprite1, Spritefour):
         pygame.quit()
@@ -149,13 +154,6 @@ while gameLoop: #while loop will contain if and for statements
     for event in pygame.event.get():
         if (event.type==pygame.QUIT): #if pygame quits gameLoop is false and program ends
             gameLoop= False
-
-        if gameLoop == False:
-            FontText = fonts.render("Game Over for you",True,white)
-            FontRect = FontText.get_rect()
-            FontRectX = width / 2 - FontRect.width / 2
-            FontRectY = height / 2 - FontRect.height / 2
-            window.blit(FontText, [FontRectX, FontRectY])
         
 
 
@@ -200,6 +198,7 @@ while gameLoop: #while loop will contain if and for statements
                 direc2 = 0
             if (event.key==pygame.K_DOWN): #down is 0 as player is no touching key buttons
                 direc2 = 0
+
             
    
     if MOVEXenemythree > 420:
@@ -251,11 +250,25 @@ while gameLoop: #while loop will contain if and for statements
     Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
     if Sprite1.x  > 440:
         pygame.quit()
+        print "Your high score was", score
+        print "Game Over"
+        break
+    elif Sprite1.x <0:
+        pygame.quit()
+        print "Your high score was", score
+        print "Game Over"
         break
         
     elif Sprite1.y > 400:
         pygame.quit()
-        
+        print "Your high score was", score
+        print "Game Over"
+        break
+    
+    elif Sprite1 < 0:
+        pygame.quit()
+        print "Your high score was", score
+        print "Game Over"
         break
 
     
