@@ -37,7 +37,6 @@ MOVEYenemythree=90
 rectDirectXthree=9
 rectDirectYthree=8
 
-score = 0# score = 0 but goes up 1 when player collects gold sprite
 
 grey=(120,255,84) #grey colour
 black = (0,0,0) #black colour
@@ -45,9 +44,16 @@ white=(255,255,255) #white colour
 gold = (218,165,32) #gold colour
 red= (255,20,10) #red colour
 
+SCORE=0
+# score = 0 but goes up 1 when player collects gold sprite
+SCOREFONT=pygame.font.SysFont("Helvetica",20)
+score = SCOREFONT.render("Score: " +str(SCORE),True,white)
+RectangleFont = score.get_rect()
+
 pygame.mixer.music.load('menusound.mp3') #loads music file to play
 pygame.mixer.music.play(-1,0.0) #plays music, -1 means loop song infinitely, 0.0 is where from song should it start
 direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where shape will go if keyboard keys pressed
+
 
 
 
@@ -122,12 +128,6 @@ Spritethree=Sprite3(100,200,20,20)
 Spritefour=Sprite4(200,172,30,15)
 
 
-
-##-SCORE CODE-##
-fonts = pygame.font.SysFont("freesansbold.ttf",12)
-GameScore= fonts.render("Score: "+str(score),False,white)
-textRectObj = GameScore.get_rect()
-
 gameLoop = True #variable is continuing loop so program events inside can continously be used and played
     
 
@@ -148,24 +148,37 @@ while gameLoop: #while loop will contain if and for statements
             if (event.key==pygame.K_LEFT): #go left x axis, -5, because getting closer to left
 
                 direc1 = -4
-                score+=1
-                GameScore= fonts.render("Score: "+str(score),True,white)
+
+                SCORE+=1
+
+            score = SCOREFONT.render("Score: " +str(SCORE),True,white)
+        
+                
 
             if (event.key==pygame.K_RIGHT): #go right x axis, 5, because adding 5 closer to right
 
                 direc1= 4
-                score+=1
-                GameScore= fonts.render("Score: "+str(score),True,white)
+
+                SCORE+=1
+            score = SCOREFONT.render("Score: " +str(SCORE),True,white)
+                
+                
 
             if (event.key==pygame.K_DOWN): #go down y axis, 5, 
                 direc2 = 4
-                score+=1
-                GameScore= fonts.render("Score: "+str(score),True,white)
+                SCORE+=1
+
+
+            score = SCOREFONT.render("Score: " +str(SCORE),True,white)
+                
+                
 
             if (event.key==pygame.K_UP): #go up 
                 direc2 = -4
-                score+=1
-                GameScore= fonts.render("Score: "+str(score),True,white)
+                SCORE+=1
+
+            score  = SCOREFONT.render("Score: " +str(SCORE),True,white)
+               
 
             if (event.key==pygame.K_ESCAPE):
                 pygame.quit() #when escape button pressed, game closes
@@ -238,7 +251,7 @@ while gameLoop: #while loop will contain if and for statements
     elif Sprite1.y > 400:
         game=2
         
-    elif Sprite1 < 0:
+    elif Sprite1.y < 0:
         game=2
 
     if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
@@ -261,9 +274,12 @@ while gameLoop: #while loop will contain if and for statements
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_SPACE:
                 game+=1
+            elif event.key==pygame.K_ESCAPE:
+                pygame.quit()
 
     if game==1:
         window.blit(background,(0,0))
+        window.blit(score,(220,10))
         Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
         Spritetwo.renderSprite2() #defines enemy
         Spritethree.renderSprite3() #defines first enemy
@@ -277,7 +293,7 @@ while gameLoop: #while loop will contain if and for statements
         Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
         Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
 
-    pygame.display.update()
+    
     
     if game==2:
         window.blit(GameOver,(0,0))
@@ -286,6 +302,8 @@ while gameLoop: #while loop will contain if and for statements
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_SPACE: 
                 window.blit(background,(0,0))
+            elif event.key==pygame.K_ESCAPE:
+                pygame.quit()
                 game=1
                 Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
                 Spritetwo.renderSprite2() #defines enemy
@@ -300,7 +318,7 @@ while gameLoop: #while loop will contain if and for statements
                 Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
                 Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
 
-    
+    pygame.display.update()
 
             
 
