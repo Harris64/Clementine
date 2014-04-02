@@ -14,18 +14,23 @@ pygame.display.set_mode((width,height))
 GameOver = pygame.image.load('gameover.jpg')
 background = pygame.image.load('OUTERSPACE.jpg') #gives the background image
 pygame.display.set_caption("Planet eater!") #displays captions/title for game
-start=pygame.image.load("startscreen.jpg").convert()
+START=pygame.image.load("startscreen.jpg")
 clock = pygame.time.Clock()
-startScreen=0
+
 MOVEX = 100 #position of rectangle
+
 MOVEY = 300 #position of rectangle
+
 rectDirectX=5 #this is the direction and speed of rectangle1 (first enemy)
+
 rectDirectY=3 #direction of first enemy in y co-ords
 
 rectDirectXtwo=4 #direction of 2nd enemy it will travel this plus MOVEXenemytwo variable so it will move and bounce around screen
 rectDirectYtwo=6 #y direction of 2nd enemy
 MOVEXenemytwo=230 #second enemy variables which represents X value
 MOVEYenemytwo=150 #this represents second enemies Y position
+
+game=0
 
 MOVEXenemythree=200
 MOVEYenemythree=90
@@ -45,9 +50,6 @@ pygame.mixer.music.play(-1,0.0) #plays music, -1 means loop song infinitely, 0.0
 direc1, direc2 = 0,0 #direction1 is x, direction2 is y, used to monitor where shape will go if keyboard keys pressed
 
 
-fonts = pygame.font.SysFont("freesansbold.ttf",12)
-GameScore= fonts.render("Score: "+str(score),True,white)
-textRectObj = GameScore.get_rect()
 
 class Sprite(pygame.sprite.Sprite): #creates class named sprite
 
@@ -120,44 +122,25 @@ Spritethree=Sprite3(100,200,20,20)
 Spritefour=Sprite4(200,172,30,15)
 
 
-pygame.display.update()
+
+##-SCORE CODE-##
+fonts = pygame.font.SysFont("freesansbold.ttf",12)
+GameScore= fonts.render("Score: "+str(score),False,white)
+textRectObj = GameScore.get_rect()
 
 gameLoop = True #variable is continuing loop so program events inside can continously be used and played
     
 
 while gameLoop: #while loop will contain if and for statements
-    if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        break
-    if pygame.sprite.collide_rect(Sprite1, Spritefour):
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        break
     
 
-    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        
-        break
-
-    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        
-        break
+    
         
     
     
     for event in pygame.event.get():
         if (event.type==pygame.QUIT): #if pygame quits gameLoop is false and program ends
             gameLoop= False
-        
 
 
         if (event.type==pygame.KEYDOWN): #what happens when player has key down
@@ -166,7 +149,7 @@ while gameLoop: #while loop will contain if and for statements
 
                 direc1 = -4
                 score+=1
-            GameScore= fonts.render("Score: "+str(score),True,white)
+                GameScore= fonts.render("Score: "+str(score),True,white)
 
             if (event.key==pygame.K_RIGHT): #go right x axis, 5, because adding 5 closer to right
 
@@ -201,12 +184,6 @@ while gameLoop: #while loop will contain if and for statements
                 direc2 = 0
             if (event.key==pygame.K_DOWN): #down is 0 as player is no touching key buttons
                 direc2 = 0
-
-            if startScreen == 0:
-                window.blit(start,(0,0))
-                if event.type==pygame.KEYDOWN:
-                    if event.key==pygame.K_SPACE:
-                        window.blit(background, (20,50))
                         
 
             
@@ -251,51 +228,79 @@ while gameLoop: #while loop will contain if and for statements
     elif MOVEY <0:
         MOVEY = 0
         rectDirectY = 5
-    
-    window.fill(black) #fills window with black
+
+    pygame.display.update()
 
 
-    
-    Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
-    Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
+    if game==0:
+        window.blit(START,(0,0))
+        
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_SPACE:
+                game+=1
+
+    if game==1:
+        window.blit(background,(0,0))
+        Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
+        Spritetwo.renderSprite2() #defines enemy
+        Spritethree.renderSprite3() #defines first enemy
+        Spritefour.renderSprite4() #defines second enemy
+        MOVEX += rectDirectX
+        MOVEY += rectDirectY
+        MOVEXenemytwo += rectDirectXtwo
+        MOVEYenemytwo += rectDirectYtwo
+        MOVEXenemythree += rectDirectXthree
+        MOVEYenemythree += rectDirectYthree
+        Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
+        Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
+
     if Sprite1.x  > 440:
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        break
+        game+=1
+
     elif Sprite1.x <0:
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        break
+        game+=1
         
     elif Sprite1.y > 400:
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        break
-    
+        game+=1
+        
     elif Sprite1 < 0:
-        pygame.quit()
-        print "Your high score was", score
-        print "Game Over"
-        break
+        game+=1
+
+    if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
+        game+=1
+    if pygame.sprite.collide_rect(Sprite1, Spritefour):
+        game+=1
+
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+        game+=1
+        
+
+    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+        game+=1
+        
+
+    if game==2:
+        window.blit(GameOver,(0,0))
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_SPACE:
+                game=0
 
     
-    window.blit(background, (20,50))
+    
+##    window.fill(black) #fills window with black
+
 
     
     
-    Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
-    Spritetwo.renderSprite2() #defines enemy
-    Spritethree.renderSprite3() #defines first enemy
-    Spritefour.renderSprite4() #defines second enemy
-    MOVEX += rectDirectX
-    MOVEY += rectDirectY
-    MOVEXenemytwo += rectDirectXtwo
-    MOVEYenemytwo += rectDirectYtwo
-    MOVEXenemythree += rectDirectXthree
-    MOVEYenemythree += rectDirectYthree
+    
+    
+
+    
+    
+    
+    
+
+    
     
     
     
@@ -303,11 +308,11 @@ while gameLoop: #while loop will contain if and for statements
 
     pygame.display.flip() #this updates the whole window, and performs same function as .update
 
-pygame.quit()
 
 
 
-
-
+#play = 0
+    #if play == 0:
+    #window.blit(
 
 
