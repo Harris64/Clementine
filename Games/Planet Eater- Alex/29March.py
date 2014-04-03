@@ -4,7 +4,6 @@ pygame.init() #initialises pygame
 pygame.font.init()
 from pygame.locals import * #imports additional pygame modules which are seen as not usually needed
 
-import random #imports random module to allow for randrange and randint
 
 width=440 #set width of screen for future use
 height=400 #set height of screen for future use
@@ -184,7 +183,7 @@ while gameLoop: #while loop will contain if and for statements
                 pygame.quit() #when escape button pressed, game closes
 
             if (event.key==pygame.K_p): #if user presses p
-                pygame.time.wait(3000) #if user presses p the pygame program will wait a certain amount of milliseconds
+                pygame.time.wait(3000)#if user presses p the pygame program will wait a certain amount of milliseconds
                 #3000 milliseconds is equal to 3 seconds
                         
         if (event.type==pygame.KEYUP): #keyup when player doesnt have fingers on keys
@@ -227,6 +226,7 @@ while gameLoop: #while loop will contain if and for statements
         rectDirectYtwo = -4
     elif MOVEYenemytwo < 0:
         MOVEYenemytwo = 0
+        rectDirectYtwo = 5
     
 
     if MOVEX >=440: #MOVEX is greater than 440 (width of screen) then set MOVEX to 0 so it doesnt go off screen
@@ -242,30 +242,8 @@ while gameLoop: #while loop will contain if and for statements
         MOVEY = 0
         rectDirectY = 5
 
-    if Sprite1.x  > 440:
-        game=2
-
-    elif Sprite1.x <0:
-        game=2
+    
         
-    elif Sprite1.y > 400:
-        game=2
-        
-    elif Sprite1.y < 0:
-        game=2
-
-    if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
-        game=2
-    if pygame.sprite.collide_rect(Sprite1, Spritefour):
-        game=2
-
-    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-        game=2
-        
-
-    if pygame.sprite.collide_rect(Sprite1,Spritetwo):
-        game=2
-
 
 
     if game==0:
@@ -273,7 +251,7 @@ while gameLoop: #while loop will contain if and for statements
         
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_SPACE:
-                game+=1
+                game=1
             elif event.key==pygame.K_ESCAPE:
                 pygame.quit()
 
@@ -292,41 +270,51 @@ while gameLoop: #while loop will contain if and for statements
         MOVEYenemythree += rectDirectYthree
         Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
         Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
+        
+        if Sprite1.x  > 440:
+            game=2
+            
 
-    
+        elif Sprite1.x <0:
+            game=2
+            
+           
+            
+        elif Sprite1.y > 400:
+            game=2
+            
+            
+        elif Sprite1.y < 0:
+            game=2
+                    
+
+        if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
+            game=2
+        if pygame.sprite.collide_rect(Sprite1, Spritefour):
+            game=2
+
+        if pygame.sprite.collide_rect(Sprite1,Spritetwo):
+            game=2
+
     
     if game==2:
         window.blit(GameOver,(0,0))
-        
-        
+        window.blit(score,(190,10))
+        SCORE=0
         if event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_SPACE: 
-                window.blit(background,(0,0))
-            elif event.key==pygame.K_ESCAPE:
-                pygame.quit()
+            if event.key==pygame.K_SPACE:
                 game=1
-                Sprite1.renderSprite() #renders first sprite and enables it to be seen by user
-                Spritetwo.renderSprite2() #defines enemy
-                Spritethree.renderSprite3() #defines first enemy
-                Spritefour.renderSprite4() #defines second enemy
-                MOVEX += rectDirectX
-                MOVEY += rectDirectY
-                MOVEXenemytwo += rectDirectXtwo
-                MOVEYenemytwo += rectDirectYtwo
-                MOVEXenemythree += rectDirectXthree
-                MOVEYenemythree += rectDirectYthree
-                Sprite1.x+=direc1 #sprite1 has direc1 (x) co-ords inside it
-                Sprite1.y+=direc2 #sprite1 has direc2 (y) co-ords inside it
-
-    pygame.display.update()
-
-            
-
+            elif event.key==pygame.K_e:
+                game=0
     
+                
+    pygame.display.update()
+                
+            
 
     clock.tick(40) #measures speed of sprite movement
 
-    pygame.display.update() #this updates the whole window, and performs same function as .update
+pygame.quit() #this updates the whole window, and performs same function as .update
 
 
 
