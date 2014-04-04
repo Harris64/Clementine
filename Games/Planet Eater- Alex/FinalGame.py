@@ -286,6 +286,8 @@ while gameLoop: #while loop will contain if and for statements
             
         elif Sprite1.y < 0:
             game=2
+            
+        pygame.display.update()
                     
 
         if pygame.sprite.collide_rect(Sprite1, Spritethree): #sprite collides with enemy
@@ -295,7 +297,8 @@ while gameLoop: #while loop will contain if and for statements
 
         if pygame.sprite.collide_rect(Sprite1,Spritetwo):
             game=2
-
+            
+    pygame.display.update()
     
     if game==2:
         window.blit(GameOver,(0,0))
@@ -308,11 +311,13 @@ while gameLoop: #while loop will contain if and for statements
                 game=0
     
                 
-    pygame.display.update()
+        pygame.display.update()
                 
             
 
     clock.tick(40) #measures speed of sprite movement
+    
+
 
 pygame.quit() #this updates the whole window, and performs same function as .update
 
